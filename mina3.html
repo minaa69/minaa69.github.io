@@ -106,7 +106,7 @@ small {
 
 <div class="first">
 	<input class="quantities" type="number" min="0" style="width: 50px">
-  <p>welsh onion soko <span class="price">$14</span><br />
+  <p>sushi<span class="price">$14</span><br />
   <small>Mustard sierra leone bologi kale chard beet greens black-eyed pea sorrel amaranth garlic tigernut spring onion summer purslane asparagus lentil. </small></p>
 </div>
 
@@ -114,7 +114,7 @@ class="quantities"
 
 <div class="second">
 	<input class="quantities" type="number" min="0" style="width: 50px">
-  <p>pastrami boudin tongue <span class="price">$22</span><br />
+  <p>dumpling <span class="price">$22</span><br />
   <small>Tri-tip capicola kielbasa salami brisket chicken rump strip steak drumstick. Meatloaf chuck boudin ribeye pork jowl. Andouille bacon jowl meatloaf pork loin prosciutto bresaola.</small></p>
 </div>
 
@@ -122,11 +122,12 @@ class="quantities"
 
 <div class="dessert">
 	<input class="quantities" type="number" min="0" style="width: 50px">
-  <p>fruitcake marzipan pudding dragee <span class="price">$8</span><br />
+  <p>noodles<span class="price">$8</span><br />
   <small>Lollipop tart cotton candy jelly-o carrot cake apple pie cupcake. Jelly-o bear claw ice cream candy canes.</small></p>
 </div>
 
  <br><br> 
+
 
   <input id="Name" placeholder="your name">
   <input type="email" id="Email" placeholder="Your email">
@@ -172,16 +173,20 @@ const db = getDatabase(app);
 	const Email = document.querySelector("#Email")
 	document.querySelector('#submit').addEventListener('click', Submit)
 	
-	const quantities = document.querySelectorAll(".quantities") 
-const itemsList = ["noodoles", "dumpling", "sushi"]
-    
+	const quantities = document.querySelectorAll(".quantities")  
+const prices = document.querySelectorAll(".price")
 
-						
+
+const itemsList = ["noodoles", "dumpling", "sushi"]		
+				
 function Submit() {
   const timestamp = buildTimestamp()
+  let total = 0
   let cart = { }
   for  (let i=0; i<quantities.length; i=i+1) {
   	if (quantities[i].value != "0" && quantities[i].value != "") {	
+		let price = prices[i].innerHTML.replace('$', '')
+		total = total + quantities[i].value * price 
   		cart[itemsList[i]] = parseInt(quantities[i].value) 
   	}
   	quantities[i].value = ""
@@ -192,6 +197,10 @@ function Submit() {
 	  Name: Name.value,
       email: Email.value,
 	   cart: cart,
+totalPrice: total,
+		  paid: "not yet",
+	  
+	  
   });
 
   Name.value = ""
